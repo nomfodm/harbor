@@ -1,0 +1,56 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cube {
+  position: absolute;
+  left: var(--cube-x);
+  top: var(--cube-y);
+  width: var(--cube-size);
+  height: var(--cube-size);
+  border-radius: 10px;
+  background: var(--cube-color);
+  opacity: .38;
+  box-shadow: 0 12px 48px var(--glow-p), inset 0 1px 0 rgba(255, 255, 255, .2);
+  transform: var(--cube-rotation);
+  animation: var(--cube-animation) var(--cube-duration) ease-in-out var(--cube-delay) infinite;
+}
+
+.logoFloat {
+  position: absolute;
+  top: 52%;
+  right: 8%;
+  width: 240px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: logo-float 5.2s ease-in-out .4s infinite;
+  filter: drop-shadow(0 18px 48px rgba(37, 195, 232, .14));
+}
+
+.logoGlow {
+  animation: logo-glow 3s ease-in-out infinite;
+}
+
+@keyframes logo-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-18px, -20px, 0) rotate(-2deg) scale(1.03);
+  }
+}
+
+@media (max-width: 860px) {
+  .logoFloat {
+    top: 58%;
+    right: 0;
+    transform-origin: center;
+  }
+}

@@ -1,0 +1,441 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroInner {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 80px 32px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.arcadeContent {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 20px;
+  border: 1px solid rgba(37, 195, 232, 0.2);
+  border-radius: 100px;
+  background: rgba(37, 195, 232, 0.08);
+}
+
+.badgeArcade {
+  margin-bottom: 36px;
+}
+
+.badgeCosmic {
+  margin-bottom: 32px;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.badgeText {
+  color: var(--cyan);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+}
+
+.arcadeTitle {
+  margin-bottom: 28px;
+  font-size: clamp(52px, 7.5vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -3px;
+}
+
+.cosmicTitle {
+  margin-bottom: 24px;
+  font-size: clamp(40px, 5.5vw, 78px);
+  line-height: 1.04;
+  letter-spacing: -2.5px;
+}
+
+.copy {
+  color: var(--text-dim);
+}
+
+.arcadeCopy {
+  max-width: 540px;
+  margin: 0 auto 44px;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.cosmicCopy {
+  max-width: 500px;
+  margin-bottom: 44px;
+  font-size: 17px;
+  line-height: 1.78;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.heroActionsCentered {
+  justify-content: center;
+  gap: 16px;
+}
+
+.heroButtonLarge {
+  padding: 15px 40px;
+  font-size: 16px;
+}
+
+.cosmicGrid {
+  min-height: 60vh;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  align-items: center;
+  gap: 40px;
+}
+
+.cosmicContent {
+  padding-right: 20px;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 52px;
+}
+
+.statNumber {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -1px;
+}
+
+.statLabel {
+  margin-top: 2px;
+  color: var(--text-faint);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.visualSpacer {
+  height: 460px;
+  position: relative;
+}
+
+.scrollCue {
+  position: absolute;
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.4;
+}
+
+.scrollText {
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(var(--text-faint), transparent);
+}
+
+.section {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 100px 32px;
+}
+
+.sectionHeader {
+  margin-bottom: 72px;
+  text-align: center;
+}
+
+.sectionTitle {
+  margin-bottom: 16px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 4vw, 52px);
+  letter-spacing: -1.5px;
+}
+
+.sectionCopy {
+  color: var(--text-dim);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.ctaSection {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 32px 100px;
+}
+
+.cta {
+  padding: 64px 56px;
+  border: 1px solid rgba(86, 37, 232, 0.3);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a0840 0%, #0a1a40 50%, #061828 100%);
+}
+
+.ctaOrbLeft,
+.ctaOrbRight {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.ctaOrbLeft {
+  left: -100px;
+  top: -100px;
+  width: 400px;
+  height: 400px;
+  background: rgba(37, 195, 232, 0.08);
+}
+
+.ctaOrbRight {
+  right: -60px;
+  bottom: -80px;
+  width: 350px;
+  height: 350px;
+  background: rgba(86, 37, 232, 0.12);
+}
+
+.ctaContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+  position: relative;
+}
+
+.ctaTitle {
+  margin-bottom: 12px;
+  color: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -1px;
+}
+
+.ctaCopy {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 14px;
+}
+
+.createButton,
+.launcherButton {
+  padding: 14px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.createButton {
+  border: none;
+  background: #fff;
+  color: #3a10d0;
+}
+
+.createButton:hover,
+.launcherButton:hover {
+  transform: scale(1.04);
+}
+
+.createButton:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.launcherButton {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+@media (max-width: 860px) {
+  .cosmicGrid,
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .visualSpacer {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroInner {
+    padding: 5px 20px 60px;
+  }
+
+  .section {
+    padding: 64px 20px;
+  }
+
+  .ctaSection {
+    padding: 0 20px 64px;
+  }
+
+  .cta {
+    padding: 40px 28px;
+  }
+
+  .ctaContent {
+    flex-direction: column;
+  }
+
+  .ctaActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .createButton,
+  .launcherButton {
+    width: 100%;
+    text-align: center;
+    padding: 14px 20px;
+  }
+
+  .stats {
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .sectionHeader {
+    margin-bottom: 48px;
+  }
+
+  .arcadeCopy,
+  .cosmicCopy {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroInner {
+    padding: 5px 16px 48px;
+  }
+
+  .section {
+    padding: 48px 16px;
+  }
+
+  .ctaSection {
+    padding: 0 16px 48px;
+  }
+
+  .cta {
+    padding: 28px 20px;
+  }
+
+  .heroButtonLarge {
+    padding: 13px 28px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 380px) {
+  .heroInner {
+    padding: 5px 12px 40px;
+  }
+
+  .section {
+    padding: 40px 12px;
+  }
+
+  .ctaSection {
+    padding: 0 12px 40px;
+  }
+
+  .cta {
+    padding: 22px 16px;
+    border-radius: 16px;
+  }
+
+  .cosmicTitle {
+    letter-spacing: -1.5px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+  }
+
+  .heroActions > * {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 320px) {
+  .heroInner {
+    padding: 5px 10px 32px;
+  }
+
+  .section {
+    padding: 32px 10px;
+  }
+
+  .ctaSection {
+    padding: 0 10px 32px;
+  }
+
+  .cta {
+    padding: 18px 14px;
+  }
+
+  .sectionCopy {
+    font-size: 15px;
+  }
+}

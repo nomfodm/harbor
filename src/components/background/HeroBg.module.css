@@ -1,0 +1,30 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(37, 195, 232, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 195, 232, .05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+}
+
+.orb {
+  position: absolute;
+  left: var(--orb-left);
+  top: var(--orb-top);
+  width: var(--orb-size);
+  height: var(--orb-size);
+  margin-left: calc(var(--orb-size) / -2);
+  margin-top: calc(var(--orb-size) / -2);
+  border-radius: 50%;
+  background: var(--orb-color);
+  filter: blur(var(--orb-blur));
+  animation: orb-drift var(--orb-duration) ease-in-out var(--orb-delay) infinite;
+}

@@ -1,0 +1,36 @@
+.root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.footer {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footerBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footerName {
+  color: var(--text-dim);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.copyright {
+  color: var(--text-faint);
+  font-size: 13px;
+}

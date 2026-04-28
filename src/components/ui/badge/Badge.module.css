@@ -1,0 +1,44 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  line-height: 1;
+}
+
+.sm {
+  padding: 3px 9px;
+}
+
+.md {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.cyan {
+  border: 1px solid rgba(37, 195, 232, .3);
+  background: rgba(37, 195, 232, .12);
+  color: var(--cyan);
+}
+
+.muted {
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .04);
+  color: var(--text-dim);
+}
+
+.success {
+  border: 1px solid rgba(77, 255, 150, .22);
+  background: rgba(77, 255, 150, .08);
+  color: #4dff96;
+}
+
+.danger {
+  border: 1px solid rgba(255, 70, 70, .24);
+  background: rgba(255, 70, 70, .1);
+  color: #ff7070;
+}

@@ -1,0 +1,104 @@
+.shell {
+  padding: 20px 24px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.content {
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 2;
+}
+
+.heading {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.logo {
+  display: inline-flex;
+  margin-bottom: 10px;
+  animation: logo-glow 3s ease-in-out infinite;
+}
+
+.title {
+  margin-bottom: 5px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.linkButton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--cyan);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.panel {
+  padding: 36px;
+}
+
+@media (max-width: 480px) {
+  .shell {
+    padding: 24px 16px;
+    align-items: flex-start;
+  }
+
+  .panel {
+    padding: 24px 20px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 380px) {
+  .shell {
+    padding: 16px 12px;
+  }
+
+  .panel {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .heading {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 320px) {
+  .shell {
+    padding: 12px 10px;
+  }
+
+  .panel {
+    padding: 18px 14px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+}
