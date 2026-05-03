@@ -4,15 +4,16 @@ import {FeatureCard} from "../../components/card/FeatureCard";
 import {HeroBg} from "../../components/background/HeroBg";
 import {HeroVisual} from "../../components/background/HeroVisual";
 import {Button} from "../../components/ui/button/Button";
-import type {HeroVariant, Navigate, User} from "../../types";
+import {useAppStore} from "../../store/useAppStore";
+import type {Navigate} from "../../types";
 import styles from "./MainPage.module.css";
 
 interface MainPageProps {
     setPage: Navigate;
-    user: User | null;
 }
 
-export function MainPage({setPage, user}: MainPageProps) {
+export function MainPage({setPage}: MainPageProps) {
+    const user = useAppStore((s) => s.user);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {

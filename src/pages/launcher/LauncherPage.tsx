@@ -1,87 +1,110 @@
-import type { CSSProperties } from 'react';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { FadeIn } from '../../components/fade/FadeIn';
 import { Button } from '../../components/ui/button/Button';
 import { Card } from '../../components/ui/card/Card';
-import type { Navigate, User } from '../../types';
+import { useAppStore } from '../../store/useAppStore';
+import { getLatestRelease, detectPlatform, formatFileSize, type LauncherPlatform } from '../../api/launcher';
 import styles from './LauncherPage.module.css';
 
-interface LauncherPageProps {
-  setPage: Navigate;
-  user: User | null;
-}
+const PLATFORM_META: Record<LauncherPlatform, { label: string; icon: string; ext: string }> = {
+  windows: { label: 'Windows', icon: '🪟', ext: '.exe' },
+  macos:   { label: 'macOS',   icon: '🍎', ext: '.dmg' },
+  linux:   { label: 'Linux',   icon: '🐧', ext: '.AppImage' },
+};
 
-export function LauncherPage({ setPage, user }: LauncherPageProps) {
-  const platforms = [
-    { name: 'Windows', icon: '🪟', ext: '.exe', size: '48 MB', col: 'rgba(0,120,215,0.15)' },
-    { name: 'macOS', icon: '🍎', ext: '.dmg', size: '52 MB', col: 'rgba(255,80,80,0.12)' },
-    { name: 'Linux', icon: '🐧', ext: '.AppImage', size: '50 MB', col: 'rgba(255,180,0,0.12)' },
-  ];
-  const changelog = [
-    { ver: '2.1.0', date: '15 апр. 2026', notes: ['Новый интерфейс лаунчера', 'Автообновление игры', 'Улучшена стабильность соединения'] },
-    { ver: '2.0.1', date: '2 апр. 2026', notes: ['Исправлен вылет на Windows 11', 'Исправлена потеря сессии при перезапуске'] },
-    { ver: '2.0.0', date: '10 мар. 2026', notes: ['Полностью переработан интерфейс', 'Поддержка macOS Apple Silicon'] },
-  ];
+const ALL_PLATFORMS: LauncherPlatform[] = ['windows', 'macos', 'linux'];
+
+export function LauncherPage() {
+  const user = useAppStore((s) => s.user);
+  const navigate = useNavigate();
+  const platform = useMemo(() => detectPlatform(), []);
+
+  const { data: release, isLoading, isError } = useQuery({
+    queryKey: ['launcher-release', platform],
+    queryFn: () => getLatestRelease(platform),
+  });
+
+  const meta = PLATFORM_META[platform];
+  const otherPlatforms = ALL_PLATFORMS.filter((p) => p !== platform);
 
   return (
     <div className={`page ${styles.page}`}>
       <FadeIn>
         <div className={styles.hero}>
-          <div className={styles.badge}>
-            <span className={styles.badgeText}>ВЕРСИЯ 2.1.0</span>
-          </div>
           <h1 className={styles.title}>
             Infinity <span className="grad-text">Launcher</span>
           </h1>
           <p className={styles.copy}>
-            Один клик — и вы в игре. Автообновления, управление версиями, поддержка модов.
+            Один клик — и вы в игре. Автообновления, античит и молниеносность.
           </p>
 
-          <div className={styles.platforms}>
-            {platforms.map((platform) => (
-              <Card
-                key={platform.name}
-                className={styles.platformCard}
-                style={{ '--platform-hover-bg': platform.col } as CSSProperties}
+          <Card className={styles.mainCard}>
+            <div className={styles.mainCardInner}>
+              <div className={styles.mainPlatformIcon}>{meta.icon}</div>
+              <div className={styles.mainPlatformInfo}>
+                <div className={styles.mainPlatformName}>{meta.label}</div>
+                {isLoading && <div className={styles.releaseLoading}>Загружаем информацию…</div>}
+                {isError && <div className={styles.releaseError}>Не удалось загрузить версию</div>}
+                {release && (
+                  <div className={styles.releaseMeta}>
+                    <span>v{release.version}</span>
+                    <span className={styles.metaDot}>·</span>
+                    <span>{formatFileSize(release.file_size)}</span>
+                    <span className={styles.metaDot}>·</span>
+                    <span>{meta.ext}</span>
+                  </div>
+                )}
+              </div>
+              <a
+                href={release?.download_url}
+                download
+                className={`${styles.downloadBtn} ${!release ? styles.downloadBtnDisabled : ''}`}
+                aria-disabled={!release}
+                onClick={(e) => !release && e.preventDefault()}
               >
-                <div className={styles.platformIcon}>{platform.icon}</div>
-                <div className={styles.platformName}>{platform.name}</div>
-                <div className={styles.platformMeta}>{platform.size} · {platform.ext}</div>
-                <div className={styles.download}>↓ Скачать</div>
-              </Card>
+                ↓ Скачать
+              </a>
+            </div>
+          </Card>
+
+          <div className={styles.otherPlatforms}>
+            <span className={styles.otherLabel}>Другие платформы</span>
+            {otherPlatforms.map((p) => (
+              <OtherPlatformLink key={p} platform={p} />
             ))}
           </div>
+
           {!user && (
             <p className={styles.registerNote}>
               Для игры необходим аккаунт.{' '}
-              <Button variant="plain" size="sm" onClick={() => setPage('register')} className={styles.registerLink}>Зарегистрироваться</Button>
+              <Button variant="plain" size="sm" onClick={() => navigate('/register')} className={styles.registerLink}>
+                Зарегистрироваться
+              </Button>
             </p>
           )}
         </div>
       </FadeIn>
-
-      <FadeIn delay={0.1}>
-        <h2 className={styles.historyTitle}>История версий</h2>
-        <div className={styles.changelog}>
-          {changelog.map((change) => (
-            <Card key={change.ver} className={styles.changeCard}>
-              <div>
-                <div className={styles.version}>
-                  <span className="grad-text">v{change.ver}</span>
-                </div>
-                <div className={styles.date}>{change.date}</div>
-              </div>
-              <ul className={styles.notes}>
-                {change.notes.map((note) => (
-                  <li key={note} className={styles.note}>
-                    <div className={styles.noteDot} />
-                    {note}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ))}
-        </div>
-      </FadeIn>
     </div>
+  );
+}
+
+function OtherPlatformLink({ platform }: { platform: LauncherPlatform }) {
+  const meta = PLATFORM_META[platform];
+  const { data } = useQuery({
+    queryKey: ['launcher-release', platform],
+    queryFn: () => getLatestRelease(platform),
+  });
+
+  return (
+    <a
+      href={data?.download_url}
+      download
+      className={`${styles.otherPlatformBtn} ${!data ? styles.otherPlatformBtnDisabled : ''}`}
+      onClick={(e) => !data && e.preventDefault()}
+    >
+      {meta.icon} {meta.label}
+    </a>
   );
 }

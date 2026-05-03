@@ -6,6 +6,7 @@ export const PAGE_PATHS: Record<PageId, string> = {
   login: '/login',
   register: '/register',
   pa: '/account/profile',
+  verify: '/verify-email',
 };
 
 export function pageFromPath(pathname: string): PageId {

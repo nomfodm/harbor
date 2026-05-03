@@ -104,6 +104,20 @@
   font-size: 12px;
   font-weight: 800;
   box-shadow: 0 2px 10px var(--glow-p);
+  overflow: hidden;
+}
+
+.avatarImg {
+  background: var(--surface2);
+  box-shadow: none;
+}
+
+.avatarImg img {
+  width: 28px;
+  height: 28px;
+  object-fit: fill;
+  image-rendering: pixelated;
+  display: block;
 }
 
 .username {

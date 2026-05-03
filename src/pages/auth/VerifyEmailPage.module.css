@@ -1,0 +1,156 @@
+.icon {
+  font-size: 52px;
+  margin-bottom: 4px;
+  animation: envelope-float 3s ease-in-out infinite;
+  display: block;
+  line-height: 1;
+}
+
+@keyframes envelope-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.emailHint {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  text-align: center;
+}
+
+.emailAddress {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+/* ── OTP boxes ─────────────────────────────────── */
+
+.otpRow {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 28px 0 0;
+}
+
+.otpBox {
+  width: 52px;
+  height: 62px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border2);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  caret-color: var(--cyan);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.otpBox:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(37, 195, 232, 0.15);
+  background: var(--surface2);
+}
+
+.otpBox.filled {
+  border-color: rgba(37, 195, 232, 0.5);
+  color: var(--cyan);
+}
+
+.otpBox.error {
+  border-color: rgba(255, 70, 70, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 70, 70, 0.12);
+  animation: shake 0.38s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-5px); }
+  40%       { transform: translateX(5px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+/* ── Timer ─────────────────────────────────────── */
+
+.timerWrap {
+  margin-top: 20px;
+}
+
+.timerTrack {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--surface2);
+  overflow: hidden;
+}
+
+.timerBar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  transition: width 1s linear;
+}
+
+.timerLabel {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.timerExpired {
+  color: rgba(255, 120, 70, 0.85);
+}
+
+/* ── Actions ───────────────────────────────────── */
+
+.submitBtn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 11px;
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.resendRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* ── Error banner ──────────────────────────────── */
+
+.errorBanner {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 70, 70, .25);
+  border-radius: 9px;
+  background: rgba(255, 70, 70, .1);
+  color: #ff7070;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ── Mobile ────────────────────────────────────── */
+
+@media (max-width: 420px) {
+  .otpBox {
+    width: 44px;
+    height: 54px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  .otpRow {
+    gap: 7px;
+  }
+}
