@@ -11,6 +11,7 @@ export interface SessionResponse {
   created_at: string;
   last_used_at: string | null;
   is_revoked: boolean;
+  is_current: boolean;
 }
 
 export function login(username: string, password: string): Promise<LoginResponse> {

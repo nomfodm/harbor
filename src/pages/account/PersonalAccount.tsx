@@ -95,6 +95,9 @@ export function PersonalAccount() {
   const [nick, setNick] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [notification, setNotification] = useState<{ msg: string; err: boolean } | null>(null);
+  type FieldStatus = { msg: string; err: boolean } | null;
+  const [nickStatus, setNickStatus] = useState<FieldStatus>(null);
+  const [emailStatus, setEmailStatus] = useState<FieldStatus>(null);
 
   function notify(msg: string, err = false) {
     setNotification({ msg, err });
@@ -129,17 +132,24 @@ export function PersonalAccount() {
       .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
   }, [catalog, catalogFilter, query]);
 
-  const saveProfileMutation = useMutation({
-    mutationFn: async () => {
-      await changeNickname(nick);
-      await changeEmail(email);
-    },
+  const saveNickMutation = useMutation({
+    mutationFn: () => changeNickname(nick),
     onSuccess: () => {
-      setUser({ ...user, username: nick, email });
       queryClient.invalidateQueries({ queryKey: ["me"] });
-      notify("Профиль сохранён");
+      setNickStatus({ msg: "Никнейм сохранён", err: false });
+      window.setTimeout(() => setNickStatus(null), 2800);
     },
-    onError: (err) => notify(friendlyError(err), true),
+    onError: (err) => setNickStatus({ msg: friendlyError(err), err: true }),
+  });
+
+  const saveEmailMutation = useMutation({
+    mutationFn: () => changeEmail(email),
+    onSuccess: () => {
+      setUser({ ...user, email });
+      setEmailStatus({ msg: "Email сохранён", err: false });
+      window.setTimeout(() => setEmailStatus(null), 2800);
+    },
+    onError: (err) => setEmailStatus({ msg: friendlyError(err), err: true }),
   });
 
   const changePasswordMutation = useMutation({
@@ -155,6 +165,7 @@ export function PersonalAccount() {
   const revokeSessionMutation = useMutation({
     mutationFn: (id: string) => revokeSession(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sessions"] }),
+    onError: (err) => notify(friendlyError(err), true),
   });
 
   const logoutOthersMutation = useMutation({
@@ -531,22 +542,36 @@ export function PersonalAccount() {
                   <Card className={styles.panel}>
                     <h3 className={`${styles.panelTitle} ${styles.panelTitleCompact}`}>Профиль игрока</h3>
                     <p className={styles.panelCopy}>Данные, которые видны в чате, профиле и лаунчере.</p>
-                    <FormField label="Никнейм">
-                      <input value={nick} onChange={(e) => setNick(e.target.value)} className={styles.nickInput} />
-                    </FormField>
-                    <FormField label="E-mail">
-                      <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.nickInput} />
-                    </FormField>
-                    <Button variant="primary" block className={styles.saveButton}
-                      onClick={() => saveProfileMutation.mutate()}
-                      disabled={saveProfileMutation.isPending}>
-                      {saveProfileMutation.isPending ? "Сохраняем…" : "Сохранить профиль"}
-                    </Button>
-                    {notification && (
-                      <div className={notification.err ? styles.savedError : styles.saved}>
-                        {notification.msg}
-                      </div>
-                    )}
+                    <div className={styles.profileFieldGroup}>
+                      <FormField label="Никнейм">
+                        <input value={nick} onChange={(e) => setNick(e.target.value)}
+                          className={styles.nickInput} disabled={!user.isActive} />
+                      </FormField>
+                      {!user.isActive && (
+                        <p className={styles.fieldHint}>Доступно после активации аккаунта</p>
+                      )}
+                      {nickStatus && (
+                        <div className={nickStatus.err ? styles.savedError : styles.saved}>{nickStatus.msg}</div>
+                      )}
+                      <Button variant="primary" block className={styles.saveButton}
+                        onClick={() => saveNickMutation.mutate()}
+                        disabled={!user.isActive || saveNickMutation.isPending}>
+                        {saveNickMutation.isPending ? "Сохраняем…" : "Сохранить никнейм"}
+                      </Button>
+                    </div>
+                    <div className={styles.profileFieldGroup}>
+                      <FormField label="E-mail">
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.nickInput} />
+                      </FormField>
+                      {emailStatus && (
+                        <div className={emailStatus.err ? styles.savedError : styles.saved}>{emailStatus.msg}</div>
+                      )}
+                      <Button variant="primary" block className={styles.saveButton}
+                        onClick={() => saveEmailMutation.mutate()}
+                        disabled={saveEmailMutation.isPending}>
+                        {saveEmailMutation.isPending ? "Сохраняем…" : "Сохранить email"}
+                      </Button>
+                    </div>
                   </Card>
                 </div>
               </div>
@@ -744,31 +769,38 @@ export function PersonalAccount() {
                     {logoutOthersMutation.isPending ? "Завершаем…" : "Завершить все другие"}
                   </Button>
                 </div>
+                {notification && (
+                  <div className={notification.err ? styles.savedError : styles.saved}>
+                    {notification.msg}
+                  </div>
+                )}
               </div>
               <div className={styles.sessionList}>
-                {sessions.map((session, index) => (
-                  (!session.is_revoked && <Card key={session.id} className={styles.sessionCard}>
-                    <div className={`${styles.sessionIcon} ${index === 0 ? styles.sessionIconCurrent : ""}`}>
-                      {deviceIcon(session.user_agent)}
-                    </div>
-                    <div className={styles.sessionInfo}>
-                      <div className={styles.sessionDevice}>
-                        {deviceLabel(session.user_agent)}
-                        {index === 0 && <Badge className={styles.currentBadge}>ТЕКУЩАЯ</Badge>}
+                {sessions
+                  .filter((s) => !s.is_revoked)
+                  .map((session) => (
+                    <Card key={session.id} className={styles.sessionCard}>
+                      <div className={`${styles.sessionIcon} ${session.is_current ? styles.sessionIconCurrent : ""}`}>
+                        {deviceIcon(session.user_agent)}
                       </div>
-                      <div className={styles.sessionMeta}>
-                        IP {session.ip_address ?? "—"} · {session.last_used_at ? formatDate(session.last_used_at) : "—"}
+                      <div className={styles.sessionInfo}>
+                        <div className={styles.sessionDevice}>
+                          {deviceLabel(session.user_agent)}
+                          {session.is_current && <Badge className={styles.currentBadge}>ТЕКУЩАЯ</Badge>}
+                        </div>
+                        <div className={styles.sessionMeta}>
+                          IP {session.ip_address ?? "—"} · {session.last_used_at ? formatDate(session.last_used_at) : "—"}
+                        </div>
                       </div>
-                    </div>
-                    {index !== 0 && (
-                      <Button variant="danger" size="sm" className={styles.endButton}
-                        onClick={() => revokeSessionMutation.mutate(session.id)}
-                        disabled={revokeSessionMutation.isPending}>
-                        Завершить
-                      </Button>
-                    )}
-                  </Card>)
-                ))}
+                      {!session.is_current && (
+                        <Button variant="danger" size="sm" className={styles.endButton}
+                          onClick={() => revokeSessionMutation.mutate(session.id)}
+                          disabled={revokeSessionMutation.isPending}>
+                          Завершить
+                        </Button>
+                      )}
+                    </Card>
+                  ))}
               </div>
             </div>
           )}

@@ -524,8 +524,23 @@
   font-size: 13px;
 }
 
+.profileFieldGroup {
+  margin-bottom: 20px;
+}
+
+.profileFieldGroup:last-child {
+  margin-bottom: 0;
+}
+
+.fieldHint {
+  margin: -8px 0 10px;
+  color: var(--text-faint);
+  font-size: 12px;
+}
+
 .saved {
-  margin-top: 14px;
+  margin-top: 0;
+  margin-bottom: 10px;
   color: #2ecc71;
   font-size: 13px;
   font-weight: 600;
@@ -533,7 +548,8 @@
 }
 
 .savedError {
-  margin-top: 14px;
+  margin-top: 0;
+  margin-bottom: 10px;
   color: #e74c3c;
   font-size: 13px;
   font-weight: 600;

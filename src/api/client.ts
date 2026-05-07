@@ -2,8 +2,20 @@ import { useAppStore } from '../store/useAppStore';
 
 const BASE = import.meta.env.VITE_API_URL as string;
 
+export class ApiError extends Error {
+  constructor(message: string, public readonly code?: string) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+const ERROR_CODES: Record<string, string> = {
+  RateLimitExceeded: 'Слишком много запросов — попробуйте позже',
+};
+
 export function friendlyError(err: unknown, fallback = 'Произошла ошибка'): string {
   if (err instanceof TypeError) return 'Сервер недоступен';
+  if (err instanceof ApiError) return ERROR_CODES[err.code ?? ''] ?? err.message ?? fallback;
   if (err instanceof Error) return err.message || fallback;
   return fallback;
 }
@@ -49,13 +61,15 @@ export async function apiFetch<T>(path: string, init?: RequestInit, isRetry = fa
 
   if (!res.ok) {
     let msg = res.statusText;
+    let code: string | undefined;
     try {
-      const data: { detail?: string } = await res.json();
+      const data: { detail?: string; code?: string } = await res.json();
       msg = data.detail ?? msg;
+      code = data.code;
     } catch {
       msg = await res.text().catch(() => msg);
     }
-    throw new Error(msg);
+    throw new ApiError(msg, code);
   }
   if (res.status === 204) return undefined as T;
   return res.json();
