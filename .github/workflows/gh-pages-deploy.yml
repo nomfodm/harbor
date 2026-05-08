@@ -25,8 +25,8 @@ jobs:
       - run: pnpm i
       - run: pnpm build
         env:
-          VITE_API_URL: ${{ env.VITE_API_URL }}
-          VITE_S3_URL: ${{ env.VITE_S3_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_S3_URL: ${{ vars.VITE_S3_URL }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
