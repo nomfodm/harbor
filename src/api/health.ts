@@ -13,7 +13,6 @@ const S3_URL = import.meta.env.VITE_S3_URL as string | undefined;
 async function fetchWithTimeout(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), ms);
-  console.log(API_ROOT)
   try {
     return await fetch(url, { ...init, signal: ctrl.signal });
   } finally {
