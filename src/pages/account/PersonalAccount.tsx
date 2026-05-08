@@ -145,7 +145,7 @@ export function PersonalAccount() {
   const saveEmailMutation = useMutation({
     mutationFn: () => changeEmail(email),
     onSuccess: () => {
-      setUser({ ...user, email });
+      queryClient.invalidateQueries({ queryKey: ["me"] });
       setEmailStatus({ msg: "Email сохранён", err: false });
       window.setTimeout(() => setEmailStatus(null), 2800);
     },
