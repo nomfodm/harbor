@@ -547,9 +547,9 @@ export function PersonalAccount() {
                         <input value={nick} onChange={(e) => setNick(e.target.value)}
                           className={styles.nickInput} disabled={!user.isActive} />
                       </FormField>
-                      {!user.isActive && (
-                        <p className={styles.fieldHint}>Доступно после активации аккаунта</p>
-                      )}
+                      {/*{!user.isActive && (*/}
+                      {/*  <p className={styles.fieldHint}>Доступно после активации аккаунта</p>*/}
+                      {/*)}*/}
                       {nickStatus && (
                         <div className={nickStatus.err ? styles.savedError : styles.saved}>{nickStatus.msg}</div>
                       )}
