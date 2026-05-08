@@ -7,7 +7,7 @@ export interface ServiceStatus {
   status?: BackendStatus;
 }
 
-const API_ROOT = (import.meta.env.VITE_API_URL as string).replace(/\/v\d+\/?$/, '');
+const API_ROOT = import.meta.env.VITE_API_URL as string
 const S3_URL = import.meta.env.VITE_S3_URL as string | undefined;
 
 async function fetchWithTimeout(url: string, init?: RequestInit, ms = 6000): Promise<Response> {

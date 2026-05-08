@@ -1,6 +1,6 @@
 import { useAppStore } from '../store/useAppStore';
 
-const BASE = import.meta.env.VITE_API_URL as string;
+const BASE = import.meta.env.VITE_API_URL as string + '/v1';
 
 export class ApiError extends Error {
   constructor(message: string, public readonly code?: string) {
